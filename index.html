@@ -93,7 +93,13 @@
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
+	user-select: none;
+  -webkit-user-select: none;
   }
+  #callBtnFooter, #phoneContact {
+  user-select: none;
+  -webkit-user-select: none;
+}
   .call-btn:hover { background: #f0f0f0; }
 
   .nav-toggle {
@@ -105,7 +111,7 @@
     color: #ffffff;
   }
   .nav-toggle svg { width: 26px; height: 26px; }
-  #servicesKicker {
+  .kicker-lg {
   font-size: 16px;
 }
 
@@ -190,7 +196,18 @@
     border-radius: 6px;
     padding: 20px;
   }
-  .charger-media { aspect-ratio: 4/3; margin-bottom: 16px; }
+  .charger-media {
+    aspect-ratio: 4/3;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 6px;
+  }
+  .charger-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .charger-card h3 { font-size: 18px; margin-bottom: 4px; }
   .charger-tag { font-size: 12px; color: var(--teal); font-weight: 600; margin: 0 0 14px; }
   .charger-specs { list-style: none; padding: 0; margin: 0 0 16px; }
@@ -206,6 +223,8 @@
 
   @media (max-width: 900px) {
     .charger-cards { grid-template-columns: 1fr; }
+	.wrap { padding: 0 18px; }
+	.hero-ctas { justify-content: flex-start; }
   }
 
   /* ---------- Media placeholder ---------- */
@@ -307,11 +326,20 @@
   .service-row h3 { font-size: 17px; color: var(--ink); }
   .service-row p { margin: 6px 0 0; color: var(--ink-soft); font-size: 15px; max-width: 56ch; }
 
-  /* ---------- Process steps ---------- */
+  /* ---------- Process steps (pictorial workflow) ---------- */
   .process-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
-  .step { padding: 0 18px 0 0; border-left: 2px solid var(--line); padding-left: 18px; }
-  .step:first-child { border-left: 2px solid var(--amber); }
-  .step .step-num { font-size: 13px; color: var(--teal); font-weight: 600; margin-bottom: 10px; }
+  .step { padding-right: 18px; }
+  .step-icon-row { display: flex; align-items: center; margin-bottom: 18px; }
+  .step-icon {
+    width: 46px; height: 46px; min-width: 46px; border-radius: 50%;
+    background: var(--teal-light); border: 1.5px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step:first-child .step-icon { border-color: var(--amber); background: #FBEEDA; }
+  .step-icon svg { width: 20px; height: 20px; stroke: var(--teal); }
+  .step:first-child .step-icon svg { stroke: var(--amber-dark); }
+  .step-line { flex: 1; height: 2px; background: var(--line); }
+  .step .step-num { font-size: 13px; color: var(--teal); font-weight: 600; margin-bottom: 6px; }
   .step h3 { font-size: 15.5px; margin-bottom: 6px; }
   .step p { font-size: 13.8px; color: var(--ink-soft); margin: 0; }
 
@@ -447,15 +475,13 @@
     nav.open { display: flex; }
     nav a { padding: 14px 32px; }
     .nav-toggle { display: block; }
-	.call-btn { padding: 8px 12px; font-size: 12.5px; white-space: normal; text-align: center; }
+    .call-btn { padding: 8px 12px; font-size: 12.5px; white-space: normal; text-align: center; }
     .header-row { padding: 14px 16px; gap: 10px; }
-    <!--.call-btn { display: none; }-->
 
     .hero-grid { grid-template-columns: 1fr; }
     .service-row { grid-template-columns: 1fr; gap: 6px; }
-    .process-grid { grid-template-columns: repeat(2, 1fr); row-gap: 24px; }
-    .step { border-left: 2px solid var(--line); padding-left: 16px; }
-    .step:nth-child(odd) { border-left: 2px solid var(--amber); }
+    .process-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+    .step .step-line { display: none; }
     .coverage-grid, .contact-grid { grid-template-columns: 1fr; }
     .stats-row { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
@@ -478,7 +504,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a href="tel:+919831105084" class="call-btn">Call +91 98 3110 5084</a>
+    <a href="#" class="call-btn" id="callBtnHeader" aria-label="Call us">Call us</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
     </button>
@@ -488,7 +514,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1>EV charger installation and consulting across Eastern India</h1>
+      <h1>EV Charging, Installed Right.</h1>
       <p class="lede">We provide complete end to end solutions for all your charging needs for electric vehicles. We handle site surveys, approvals, installation, and maintenance for homes, offices, and fleets across Assam, West Bengal, Odisha, Sikkim, Jharkhand, and the Northeast.</p>
       <!--<div class="hero-ctas">
         <button class="btn-primary" type="button" onclick="document.getElementById('contact').scrollIntoView()">Book a site survey</button>
@@ -497,21 +523,23 @@
         <div><span class="num mono">10000+</span>chargers installed</div>
         <div><span class="num mono">10</span>states served</div>
         <div><span class="num mono">48 hr</span>avg. survey turnaround</div>
+		<div><span class="num mono">8+</span>years in operation</div>
+		<div><span class="num mono">24X7</span>AMC breakdown support</div>
       </div>
     </div>
 
     <div class="hero-carousel">
       <div class="carousel-slide active">
-        <img src="logo.jpg" alt="Completed J-Charge installation 1">
-        <div class="carousel-caption">Installation at site1</div>
+        <img src="cake.jpg" alt="Completed J-Charge installation 1">
+        <div class="carousel-caption">Recognition @Mahindra Powerol</div>
       </div>
       <div class="carousel-slide">
-        <img src="mahabhairav.jpg" alt="Completed J-Charge installation 2">
-        <div class="carousel-caption">Installation at site2</div>
+        <img src="kp1.jpg" alt="Completed J-Charge installation 2">
+        <div class="carousel-caption">Installation Kolkata Police</div>
       </div>
       <div class="carousel-slide">
-        <img src="joeyfar.jpg" alt="Completed J-Charge installation 3">
-        <div class="carousel-caption">Installation at site3</div>
+        <img src="musas1.jpg" alt="Completed J-Charge installation 3">
+        <div class="carousel-caption">Sign off Installation</div>
       </div>
     </div>
   </div>
@@ -520,8 +548,8 @@
 <section id="services" class="alt-bg">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker" id="servicesKicker">Services</div>
-      <h2>Everything from first survey to ongoing upkeep</h2>
+      <div class="kicker kicker-lg">Services</div>
+      <h2>Site survey today, support for the long run</h2>
       <p>We work with residential societies, businesses, and fleet operators, so the scope of work and equipment we recommend changes with the site.</p>
     </div>
 
@@ -558,32 +586,61 @@
 <section id="process">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker" id="servicesKicker">Process</div>
-	         <h2>How an installation actually runs</h2>
+      <div class="kicker kicker-lg">Process</div>
+	         <h2>Installation, demystified</h2>
       <p>Five stages, start to finish. Most residential installs complete within two weeks of the survey; fleet sites take longer depending on transformer upgrades.</p>
     </div>
     <div class="process-grid">
       <div class="step">
+        <div class="step-icon-row">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+          </div>
+          <div class="step-line"></div>
+        </div>
         <div class="step-num mono">01</div>
         <h3>Site survey</h3>
         <p>An engineer checks load capacity, parking layout, and cable path in person.</p>
       </div>
       <div class="step">
+        <div class="step-icon-row">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7V3z"/><path d="M14 3v4h4"/><path d="M9.5 13.5l1.8 1.8L15 11.5"/></svg>
+          </div>
+          <div class="step-line"></div>
+        </div>
         <div class="step-num mono">02</div>
         <h3>Proposal &amp; approvals</h3>
         <p>We size the charger, quote the cost, and file utility and subsidy paperwork.</p>
       </div>
       <div class="step">
+        <div class="step-icon-row">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a2 2 0 002.8 2.8l2 2-3.2 3.2-2-2a2 2 0 00-2.8 2.8l-3.6 3.6-3-3 3.6-3.6a2 2 0 002.8-2.8l-2-2 3.2-3.2z"/></svg>
+          </div>
+          <div class="step-line"></div>
+        </div>
         <div class="step-num mono">03</div>
         <h3>Installation</h3>
         <p>Certified electricians install and wire the charger to your panel.</p>
       </div>
       <div class="step">
+        <div class="step-icon-row">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V4M15 7V4M7 7h10l1 13H6L7 7z"/><path d="M10 12l2 2 3-3"/></svg>
+          </div>
+          <div class="step-line"></div>
+        </div>
         <div class="step-num mono">04</div>
         <h3>Commissioning</h3>
         <p>We test the unit, register it on the network, and hand over documentation.</p>
       </div>
       <div class="step">
+        <div class="step-icon-row">
+          <div class="step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 9.5h16M8 3v3M16 3v3"/><path d="M9 14l1.8 1.8L15 12"/></svg>
+          </div>
+        </div>
         <div class="step-num mono">05</div>
         <h3>Maintenance</h3>
         <p>Scheduled AMC visits keep the charger running and compliant.</p>
@@ -597,7 +654,7 @@
     <div class="coverage-grid">
       <div>
         <div class="section-head" style="margin-bottom: 24px;">
-          <div class="kicker" id="servicesKicker">Coverage</div>
+          <div class="kicker kicker-lg">Coverage</div>
 		          <h2>Where we work</h2>
           <p>Based in Kolkata, with installation teams operating across Eastern India and the Northeast.</p>
         </div>
@@ -637,16 +694,13 @@
     <div class="consulting-grid">
       <div>
         <div class="section-head" style="margin-bottom: 24px;">
-          <div class="kicker" id="servicesKicker">Consulting & Sales</div>
+          <div class="kicker kicker-lg">Consulting & Sales</div>
 		           <h2>What we sell</h2>
         </div>
         <div class="charger-cards">
           <div class="charger-card">
-            <div class="media-placeholder charger-media" data-accept="image/*" data-label="Charger photo" data-sub="">
-              <div class="mp-inner">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div class="mp-label">Charger photo</div>
-              </div>
+            <div class="charger-media">
+              <img src="spin33.jpg" alt="AC Type-2 7.4 kW charger">
             </div>
             <h3>AC Type-2 7.4 kW</h3>
             <p class="charger-tag">Residential/Commercial</p>
@@ -661,11 +715,8 @@
           </div>
 
           <div class="charger-card">
-            <div class="media-placeholder charger-media" data-accept="image/*" data-label="Charger photo" data-sub="">
-              <div class="mp-inner">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div class="mp-label">Charger photo</div>
-              </div>
+            <div class="charger-media">
+              <img src="spin74.jpg" alt="AC Type-2 7.4 kW charger">
             </div>
             <h3>AC Type-2 11/22 kW</h3>
             <p class="charger-tag">Residential /Commercial</p>
@@ -679,11 +730,8 @@
           </div>
 
           <div class="charger-card">
-            <div class="media-placeholder charger-media" data-accept="image/*" data-label="Charger photo" data-sub="">
-              <div class="mp-inner">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div class="mp-label">Charger photo</div>
-              </div>
+            <div class="charger-media">
+              <img src="spin60.jpg" alt="Fleet DC charger">
             </div>
             <h3>Fleet DC 30/60/120/180/240 kW</h3>
             <p class="charger-tag">Fleet /Depot /Commercial</p>
@@ -704,32 +752,38 @@
 <section id="gallery">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker" id="servicesKicker">Gallery</div>
-	       <h2>Recent work</h2>
-      <p>Add photos and short clips from completed installations, surveys, and your team on site.</p>
+      <div class="kicker kicker-lg">Gallery</div>
+	       <h2>Recent Work, In Pictures</h2>
+      <p>Showcasing photos and short clips from completed installations, surveys, and our teams on site.</p>
     </div>
-    <div class="gallery-grid">
-      <img src="joeyfar.jpg" alt="Description of the photo">
-      <div class="media-placeholder g2" data-accept="image/*" data-label="Site survey" data-sub="">
+	<div class="gallery-grid">
+	
+      <img src="recent1.jpg" alt="Tata Installation">
+	
+		  <img src="cable.jpg" alt="Cable Accesories">
+	  
+	  <img src="mahindra.jpg" alt="Mahindra Instalaltion">
+	  
+	  <img src="meter.jpg" alt="Survey Time">
+	 
+     <!-- <div class="media-placeholder g2" data-accept="image/*" data-label="Site survey" data-sub="">
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Site survey</div></div>
       </div>
       <div class="media-placeholder g3" data-accept="image/*" data-label="Fleet depot" data-sub="">
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Fleet depot</div></div>
       </div>
-      <div class="media-placeholder g4" data-accept="image/*" data-label="Team on site" data-sub="">
-        <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Team on site</div></div>
-      </div>
+      
       <div class="media-placeholder g5" data-accept="video/*" data-label="Client testimonial video" data-sub="">
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Client testimonial video</div></div>
       </div>
       <div class="media-placeholder g6" data-accept="image/*" data-label="Before and after" data-sub="">
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Before and after</div></div>
-      </div>
+      </div>-->
     </div>
-  </div>
+	    </div>
 </section>
 
-<section class="alt-bg">
+<!--<section class="alt-bg">
   <div class="wrap">
     <div class="stats-row" id="statsRow">
       <div class="stat">
@@ -741,7 +795,7 @@
         <span class="stat-label" id="label-2">states served</span>
       </div>
       <div class="stat">
-        <span class="stat-num" id="stat-3">6</span>
+        <span class="stat-num" id="stat-3">8+</span>
         <span class="stat-label" id="label-3">years in operation</span>
       </div>
       <div class="stat">
@@ -750,24 +804,24 @@
       </div>
     </div>
   </div>
-</section>
+</section>-->
 
 <section>
   <div class="wrap">
     <div class="section-head">
       <div class="kicker">Clients</div>
-      <h2>What clients say</h2>
+      <h2>What People Are Saying</h2>
     </div>
 
     <div class="testi-carousel">
       <div class="testi-track" id="testiTrack">
         <div class="testi-card active">
-          <p class="quote">"Replace this with a real quote from a client — a line or two about the survey, install speed, or after-sales support."</p>
+          <p class="quote">"Dear Mr. Mustak Hussain, Excellent support and efforts in successfully installing the Hyundai EV Charging Station at my residence in Diphu.Your professionalism, technical expertise, and dedication ensured that the installation process was smooth, efficient, and completed to my full satisfaction."</p>
           <div class="testi-person">
             <div class="media-placeholder testi-avatar" data-accept="image/*" data-label="" data-sub=""></div>
             <div>
-              <div class="testi-name">Client name</div>
-              <div class="testi-role">Role, company or society, city</div>
+              <div class="testi-name">Jojo Terang</div>
+              <div class="testi-role">Circle Officer, Revenue & Disaster Management Department, Diphu</div>
             </div>
           </div>
         </div>
@@ -828,13 +882,13 @@
       <div class="contact-info">
         <h2>Request a callback</h2>
         <p>Tell us about your site and we'll get an engineer to call within one business day to schedule a survey.</p>
-        <div class="contact-detail">
+       <!-- <div class="contact-detail">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5a2 2 0 012-2h3l2 5-2.5 1.5a11 11 0 005 5L14 12l5 2v3a2 2 0 01-2 2h-1C9.163 19 5 14.837 5 9V8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div>+91 9831105084<br><span style="color:var(--ink-soft); font-size:13px;">Mon–Sat, 10am–8pm IST</span></div>
-        </div>
+          <div><span id="phoneContact"></span><br><span style="color:var(--ink-soft); font-size:13px;">Mon–Sat, 10am–8pm IST</span></div>
+        </div>-->
         <div class="contact-detail">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18v12H3V6zm0 0l9 7 9-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div>nandini.nin@gmail.com</div>
+          <div>nandinisaikia@jcharge.in</div>
         </div>
         <div class="contact-detail">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -884,7 +938,7 @@
           </div>
         </div>
         <div class="form-field">
-          <label for="message">Tell us about the site</label>
+          <label for="message">Tell us about the site or your query</label>
           <textarea id="message" name="message" placeholder="Number of vehicles, parking type, timeline..."></textarea>
         </div>
         <button type="submit" class="submit-btn">Request a callback</button>
@@ -898,7 +952,7 @@
     <div class="footer-grid">
       <div>
         <h4>J-Charge</h4>
-        <p style="max-width: 34ch;">EV charger installation and consulting for homes, businesses, and fleets across Eastern India.</p>
+        <p style="max-width: 34ch;">Founded in 2018, we cater to EV charger installation and consulting for homes, businesses, and fleets across Eastern India.</p>
       </div>
       <div>
         <h4>Company</h4>
@@ -910,8 +964,8 @@
       </div>
       <div>
         <h4>Contact</h4>
-        <a href="tel:+919831105084">+91 98 3110 5084</a>
-        <a href="mailto:nandini.nin@gmail.com">nandini.nin@gmail.com</a>
+        <a href="#" id="callBtnFooter">Call us</a>
+        <a href="mailto:nandinisaikia@jcharge.in">nandinisaikia@jcharge.in</a>
         <p>406 Baghajatin Place,Kolkata</p>
       </div>
     </div>
@@ -975,6 +1029,26 @@
   document.getElementById('navToggle').addEventListener('click', function () {
     document.querySelector('nav').classList.toggle('open');
   });
+
+  // Phone number assembled at runtime — not present as plain text in the
+  // page source, so basic scrapers scanning raw HTML won't pick it up.
+  // Visible text is masked to the last 3 digits; the tel: link still
+  // carries the full number so tapping "Call" dials correctly.
+  (function () {
+    var cc = '91', p1 = '98', p2 = '3110', p3 = '5084';
+    var digits = p1 + p2 + p3;
+    var tel = '+' + cc + digits;
+    var masked = '*'.repeat(digits.length - 3) + digits.slice(-3);
+
+    var headerBtn = document.getElementById('callBtnHeader');
+    if (headerBtn) { headerBtn.href = 'tel:' + tel; headerBtn.textContent = 'Call ' + masked; }
+
+    var footerLink = document.getElementById('callBtnFooter');
+    if (footerLink) { footerLink.href = 'tel:' + tel; footerLink.textContent = masked; }
+
+    var contactSpan = document.getElementById('phoneContact');
+    if (contactSpan) { contactSpan.textContent = masked; }
+  })();
 
   // Dynamic stats from Google Sheets (published as CSV)
   fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTKTnC6U7b45NHPzh_LwpFLrP5687M_ov7lbVKbHUEz8iDNvAVJaAkuf99ISg7hAATkqRRWnssF4Hky/pub?gid=0&single=true&output=csv')
