@@ -495,10 +495,129 @@
     .gallery-grid .g1, .gallery-grid .g2, .gallery-grid .g5, .gallery-grid .g6 { grid-column: span 2; }
     .form-row { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .floating-contact-btn { right: 16px; bottom: 16px; padding: 12px 18px; font-size: 13.5px; }
+    .floating-whatsapp-btn { right: 16px; bottom: 68px; width: 44px; height: 44px; }
+    .popup-modal { padding: 22px; }
   }
+
+  .floating-whatsapp-btn {
+    position: fixed;
+    right: 28px;
+    bottom: 92px;
+    z-index: 40;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(20,33,61,0.22);
+  }
+  .floating-whatsapp-btn:hover { background: #1EBE5A; }
+  .floating-whatsapp-btn svg { width: 26px; height: 26px; fill: white; }
+
+  /* ---------- Promo banner ---------- */
+  .promo-banner {
+    background: var(--ink);
+    color: white;
+    text-align: center;
+    padding: 10px 40px;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+  }
+  .promo-banner strong { color: var(--amber); }
+  .promo-banner .promo-close {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  .promo-banner .promo-close:hover { opacity: 1; }
+  .promo-banner.hidden { display: none; }
+
+  /* ---------- Floating contact button & popup form ---------- */
+  .floating-contact-btn {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 40;
+    background: var(--amber);
+    color: #21150A;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(20,33,61,0.22);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .floating-contact-btn:hover { background: var(--amber-dark); color: white; }
+  .floating-contact-btn svg { width: 18px; height: 18px; }
+
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,33,61,0.55);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .popup-overlay.open { display: flex; }
+
+  .popup-modal {
+    background: var(--surface);
+    width: 100%;
+    max-width: 460px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+  }
+  .popup-modal h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .popup-modal .popup-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .popup-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .popup-close:hover { color: var(--ink); }
 </style>
 </head>
 <body>
+
+<div class="promo-banner" id="promoBanner">
+  <strong>Free site survey</strong> first 10 EV customer inquiries — book yours before it ends.
+  <button class="promo-close" id="promoClose" type="button" aria-label="Dismiss">&times;</button>
+</div>
 
 <header>
   <div class="header-row">
@@ -981,6 +1100,69 @@
   </div>
 </footer>
 
+<a class="floating-whatsapp-btn" href="https://wa.me/919831105084" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 004.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.9 0-2.65-1.03-5.13-2.9-7-1.87-1.87-4.35-2.93-7-2.93zm0 18.13h-.01a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.13.82.84-3.05-.2-.31a8.22 8.22 0 01-1.26-4.35c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 012.41 5.82c0 4.55-3.7 8.25-8.24 8.25zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.17.25-.65.81-.79.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.23.89 2.42 1.02 2.58.12.17 1.75 2.67 4.24 3.75.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+</a>
+<button class="floating-contact-btn" id="floatingContactBtn" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5a2 2 0 012-2h3l2 5-2.5 1.5a11 11 0 005 5L14 12l5 2v3a2 2 0 01-2 2h-1C9.163 19 5 14.837 5 9V8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Get a callback
+</button>
+
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-modal">
+    <button class="popup-close" id="popupClose" type="button" aria-label="Close">&times;</button>
+    <h3>Request a callback</h3>
+    <div class="popup-sub">Tell us about your site and we'll get an engineer to call within one business day.</div>
+    <form class="consult-form" id="popupConsultForm" action="https://formspree.io/f/moeqpwko" method="POST">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="popupName">Full name</label>
+          <input type="text" id="popupName" name="name" required>
+        </div>
+        <div class="form-field">
+          <label for="popupPhone">Phone</label>
+          <input type="tel" id="popupPhone" name="phone" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="popupEmail">Email</label>
+        <input type="email" id="popupEmail" name="email" required>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="popupState">State</label>
+          <select id="popupState" name="state">
+            <option>West Bengal</option>
+            <option>Odisha</option>
+            <option>Jharkhand</option>
+            <option>Bihar</option>
+            <option>Assam</option>
+            <option>Sikkim</option>
+            <option>Tripura</option>
+            <option>Meghalaya</option>
+            <option>Manipur</option>
+            <option>Nagaland</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="popupType">Property type</label>
+          <select id="popupType" name="type">
+            <option>Residential</option>
+            <option>Commercial / workplace</option>
+            <option>Fleet / depot</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="popupMessage">Tell us about the site or your query</label>
+        <textarea id="popupMessage" name="message" placeholder="Number of vehicles, parking type, timeline..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Request a callback</button>
+    </form>
+  </div>
+</div>
+
 <script>
   // Wires every .media-placeholder up to a hidden file input so real
   // photos/videos can be dropped in immediately, with no page reload.
@@ -1109,41 +1291,80 @@
     track.parentElement.addEventListener('mouseleave', startAuto);
   })();
 
-  // Consult form — real Formspree submission
-  document.getElementById('consultForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const form = this;
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalBtnText = submitBtn.textContent;
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (response) {
-        if (response.ok) {
-          alert('Thanks! We\'ve received your request and will call you back shortly.');
-          form.reset();
-        } else {
-          return response.json().then(function (data) {
-            var message = (data.errors || []).map(function (err) { return err.message; }).join(', ');
-            throw new Error(message || 'Something went wrong. Please try again.');
-          });
-        }
-      })
-      .catch(function (error) {
-        alert('Sorry, we couldn\'t send your request. ' + error.message);
-      })
-      .finally(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
+  // Promo banner dismiss
+  (function () {
+    var banner = document.getElementById('promoBanner');
+    var closeBtn = document.getElementById('promoClose');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        banner.classList.add('hidden');
       });
-  });
+    }
+  })();
+
+  // Floating button popup — open/close
+  (function () {
+    var overlay = document.getElementById('popupOverlay');
+    var openBtn = document.getElementById('floatingContactBtn');
+    var closeBtn = document.getElementById('popupClose');
+
+    function openPopup() { overlay.classList.add('open'); }
+    function closePopup() { overlay.classList.remove('open'); }
+
+    openBtn.addEventListener('click', openPopup);
+    closeBtn.addEventListener('click', closePopup);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closePopup();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePopup();
+    });
+  })();
+
+  // Shared Formspree submit handler, used by both the page's contact form
+  // and the floating popup form.
+  function wireConsultForm(formEl) {
+    if (!formEl) return;
+    formEl.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var form = this;
+      var submitBtn = form.querySelector('.submit-btn');
+      var originalBtnText = submitBtn.textContent;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(function (response) {
+          if (response.ok) {
+            alert('Thanks! We\'ve received your request and will call you back shortly.');
+            form.reset();
+            var overlay = document.getElementById('popupOverlay');
+            if (overlay && overlay.contains(form)) overlay.classList.remove('open');
+          } else {
+            return response.json().then(function (data) {
+              var message = (data.errors || []).map(function (err) { return err.message; }).join(', ');
+              throw new Error(message || 'Something went wrong. Please try again.');
+            });
+          }
+        })
+        .catch(function (error) {
+          alert('Sorry, we couldn\'t send your request. ' + error.message);
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        });
+    });
+  }
+
+  wireConsultForm(document.getElementById('popupConsultForm'));
+  wireConsultForm(document.getElementById('consultForm'));
 </script>
 
 </body>
