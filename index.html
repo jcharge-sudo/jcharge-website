@@ -355,6 +355,13 @@
 
   /* ---------- Gallery ---------- */
   .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 160px; gap: 14px; }
+  .gallery-grid > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+  }
   .gallery-grid .g1 { grid-column: span 2; grid-row: span 2; }
   .gallery-grid .g2 { grid-column: span 2; grid-row: span 1; }
   .gallery-grid .g3 { grid-column: span 1; grid-row: span 1; }
@@ -515,7 +522,7 @@
   <div class="wrap hero-grid">
     <div>
       <h1>EV Charging, Installed Right.</h1>
-      <p class="lede">We provide complete end to end solutions for all your charging needs for electric vehicles. We handle site surveys, approvals, installation, and maintenance for homes, offices, and fleets across Assam, West Bengal, Odisha, Sikkim, Jharkhand, and the Northeast.</p>
+      <p class="lede">We provide complete end to end solutions for all your charging needs for electric vehicles. We handle site surveys, approvals, installation, and maintenance for homes, offices, and fleets across Assam, West Bengal, Odisha, Jharkhand, and across the entire hilly challenging terrains of Northeast.</p>
       <!--<div class="hero-ctas">
         <button class="btn-primary" type="button" onclick="document.getElementById('contact').scrollIntoView()">Book a site survey</button>
       </div>-->
@@ -540,6 +547,10 @@
       <div class="carousel-slide">
         <img src="musas1.jpg" alt="Completed J-Charge installation 3">
         <div class="carousel-caption">Sign off Installation</div>
+      </div>
+	  <div class="carousel-slide">
+        <img src="safety.jpg" alt="Completed J-Charge installation 3">
+        <div class="carousel-caption">Safety Equipped Team</div>
       </div>
     </div>
   </div>
@@ -702,7 +713,7 @@
             <div class="charger-media">
               <img src="spin33.jpg" alt="AC Type-2 7.4 kW charger">
             </div>
-            <h3>AC Type-2 7.4 kW</h3>
+            <h3>AC Type-2 3.3/7.4 kW</h3>
             <p class="charger-tag">Residential/Commercial</p>
             <ul class="charger-specs">
               <li><span>Power</span><span>7.4 kW</span></li>
@@ -756,16 +767,11 @@
 	       <h2>Recent Work, In Pictures</h2>
       <p>Showcasing photos and short clips from completed installations, surveys, and our teams on site.</p>
     </div>
-	<div class="gallery-grid">
-	
+    <div class="gallery-grid">
       <img src="recent1.jpg" alt="Tata Installation">
-	
-		  <img src="cable.jpg" alt="Cable Accesories">
-	  
-	  <img src="mahindra.jpg" alt="Mahindra Instalaltion">
-	  
-	  <img src="meter.jpg" alt="Survey Time">
-	 
+      <img src="cable.jpg" alt="Cable Accessories">
+      <img src="mahindra.jpg" alt="Mahindra Installation">
+      <img src="meter.jpg" alt="Survey Time">
      <!-- <div class="media-placeholder g2" data-accept="image/*" data-label="Site survey" data-sub="">
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Site survey</div></div>
       </div>
@@ -780,7 +786,6 @@
         <div class="mp-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16.5V19a1 1 0 001 1h14a1 1 0 001-1v-2.5M12 3v12m0-12l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="mp-label">Before and after</div></div>
       </div>-->
     </div>
-	    </div>
 </section>
 
 <!--<section class="alt-bg">
@@ -826,26 +831,26 @@
           </div>
         </div>
         <div class="testi-card">
-          <p class="quote">"Replace this with a second client quote — a line or two about approvals handled, or maintenance response time."</p>
+          <p class="quote">"Mahindra Powerol awarded J-Charge as East#1 team for outstanding performance FY25-26 for extraordinary efforts in EV charger services."</p>
           <div class="testi-person">
             <div class="media-placeholder testi-avatar" data-accept="image/*" data-label="" data-sub=""></div>
             <div>
-              <div class="testi-name">Client name</div>
-              <div class="testi-role">Role, company or society, city</div>
+              <div class="testi-name">Mahindra Powerol</div>
+              <div class="testi-role">Business Head</div>
             </div>
           </div>
         </div>
         <div class="testi-card">
-          <p class="quote">"Replace this with a third client quote — how quickly the team responded to an issue."</p>
+          <p class="quote">"eChargeBays acknowledged J-Charge with a note of Thanks for partnering with them in installing 1 lakh chargers PAN india."</p>
           <div class="testi-person">
             <div class="media-placeholder testi-avatar" data-accept="image/*" data-label="" data-sub=""></div>
             <div>
-              <div class="testi-name">Client name</div>
-              <div class="testi-role">Role, company or society, city</div>
+              <div class="testi-name">eChargeBays</div>
+              <div class="testi-role">Team ECB</div>
             </div>
           </div>
         </div>
-        <div class="testi-card">
+        <!--<div class="testi-card">
           <p class="quote">"Replace this with a fourth client quote — value for money or transparent pricing."</p>
           <div class="testi-person">
             <div class="media-placeholder testi-avatar" data-accept="image/*" data-label="" data-sub=""></div>
@@ -864,7 +869,7 @@
               <div class="testi-role">Role, company or society, city</div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
 
       <div class="testi-controls">
